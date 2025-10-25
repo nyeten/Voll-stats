@@ -1,9 +1,12 @@
 package com.app;
 
+
 public class Player {
     String name;
     int number;
     String position;
+    // transient to avoid serialization issues
+    transient PlayerStats stats;
 
     public Player(String name, int number, String position) {
         this.name = name;
@@ -21,5 +24,13 @@ public class Player {
 
     public String getPosition() {
         return position;
+    }
+
+    public PlayerStats getStats() {
+        return stats;
+    }
+    
+    public void setStats(PlayerStats stats) {
+        this.stats = stats;
     }
 }

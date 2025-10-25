@@ -7,13 +7,12 @@ public class Team {
     
     String name;
     int numPlayers = 0;
+    //list of players on team
     ArrayList<Player> players;
-    int index = 0;
     
     public Team(String name) {
         players = new ArrayList<>();
         this.name = name;
-        //this.players = new List<>();
     }
 
     public String getName() {
@@ -24,11 +23,9 @@ public class Team {
         return numPlayers;
     }
 
-    // public LinkedList<Player> getPlayers() {
-    //     return players;
-    // }
-
+    //add player to team
     public void addPlayer(String name, int number, String position) {
+        //create new player and add to list
         Player newPlayer = new Player(name, number, position);
         numPlayers++;
         players.add(newPlayer);
@@ -37,8 +34,17 @@ public class Team {
     public Player getPlayer(int index) {
         return players.get(index);
     }
+    
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
 
     public void setName(String name) {
-        this.name = name;;
+        this.name = name;
+    }
+
+    public void delPlayer(int index) {
+        players.remove(index);
+        numPlayers--;
     }
 }

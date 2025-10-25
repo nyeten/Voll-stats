@@ -1,17 +1,51 @@
 package com.app;
 
-import javafx.scene.layout.Pane;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.util.ArrayList;
+import javafx.scene.control.Button;
 
 public class PlayerStats {
 
     Stage stage;
     //block
+    @FXML
+    private Button blockErrorButton;
+    @FXML
+    private Button blockAssistButton;
+    @FXML
+    private Button blockSoloButton;
+    @FXML
+    private Button attackErrorButton;
+    @FXML
+    private Button attackKillButton;
+    @FXML
+    private Button digErrorButton;
+    @FXML
+    private Button digSuccessButton;
+    @FXML
+    private Button setButton;
+    @FXML
+    private Button setAssistButton;
+    @FXML
+    private Button serveErrorButton;
+    @FXML
+    private Button serveAceButton;
+    @FXML
+    private Button passErrorButton;
+    @FXML
+    private Button passOnTarButton;
+    @FXML
+    private Button passOffTarButton;
+    @FXML
+    private Button plusButton;
+    @FXML
+    private Button minusButton;
+
     @FXML
     private Text blockErr;
     @FXML
@@ -46,16 +80,107 @@ public class PlayerStats {
     @FXML
     private Text passOffTar;
 
-
-
-
-
+    //stat to change
     int statToChange = 0;
     int[][] stats = new int[6][3];
 
-    public PlayerStats(Stage stage) {
+    ArrayList<Player> players = null;
+
+    
+    public PlayerStats(Stage stage, ArrayList<Player> players) {
+        //initialize stats to -1 for non applicable stats
+        stats[1][2] = -1;
+        stats[2][2] = -1;
+        stats[3][2] = -1;
+        stats[4][2] = -1;
+        this.players = players;
         this.stage = stage;
     }
+
+    public void switchScene(Scene newScene) {
+
+        // If a scene already exists, use its size — otherwise fall back to stage size
+        double width = stage.getWidth();
+        double height = stage.getHeight();
+
+        // Preserve window position
+        double x = stage.getX();
+        double y = stage.getY();
+
+        // Apply the new scene and restore bounds
+        stage.setScene(newScene);
+        newScene.getRoot().resize(width, height);
+        stage.setX(x);
+        stage.setY(y);
+        stage.setWidth(width);
+        stage.setHeight(height);
+    }
+
+    @FXML
+    public void initialize() {
+        updatestat();
+        //set button styles
+        setButtonStyle(blockErrorButton);
+        setButtonStyle(blockAssistButton);
+        setButtonStyle(blockSoloButton);
+        setButtonStyle(attackErrorButton);
+        setButtonStyle(attackKillButton);
+        setButtonStyle(digErrorButton);
+        setButtonStyle(digSuccessButton);
+        setButtonStyle(setButton);
+        setButtonStyle(setAssistButton);
+        setButtonStyle(serveErrorButton);
+        setButtonStyle(serveAceButton);
+        setButtonStyle(passErrorButton);
+        setButtonStyle(passOnTarButton);
+        setButtonStyle(passOffTarButton);
+        setButtonStyle(plusButton);
+        setButtonStyle(minusButton);
+
+    }
+
+    public void setButtonStyle(Button button) {
+        button.setStyle(
+            "-fx-background-color: #1E1E1E;" +
+            "-fx-text-fill: #E0E0E0;" +
+            "-fx-font-size: 16px;" +
+            "-fx-font-weight: bold;" +
+            "-fx-border-color: #FF4C4C;" +
+            "-fx-border-width: 1.5;" +
+            "-fx-border-radius: 10;" +
+            "-fx-background-radius: 10;" +
+            "-fx-cursor: hand;"
+        );
+        // Hover effect
+        button.setOnMouseEntered(e ->
+            button.setStyle(
+                "-fx-background-color: #292929;" +
+                "-fx-text-fill: #FFFFFF;" +
+                "-fx-font-size: 16px;" +
+                "-fx-font-weight: bold;" +
+                "-fx-border-color: #FF4C4C;" +
+                "-fx-border-width: 1.5;" +
+                "-fx-border-radius: 10;" +
+                "-fx-background-radius: 10;" +
+                "-fx-effect: dropshadow(three-pass-box, #FF4C4C, 8, 0, 0, 0);" +
+                "-fx-cursor: hand;"
+            )
+        );
+
+        button.setOnMouseExited(e ->
+            button.setStyle(
+                "-fx-background-color: #1E1E1E;" +
+                "-fx-text-fill: #E0E0E0;" +
+                "-fx-font-size: 16px;" +
+                "-fx-font-weight: bold;" +
+                "-fx-border-color: #FF4C4C;" +
+                "-fx-border-width: 1.5;" +
+                "-fx-border-radius: 10;" +
+                "-fx-background-radius: 10;" +
+                "-fx-cursor: hand;"
+            )
+        );
+    }  
 
     //BLOCKS
     @FXML
@@ -130,6 +255,7 @@ public class PlayerStats {
         statToChange = 63;
     }
 
+    //PLUS AND MINUS BUTTONS
     @FXML
     public void plus() {
         int row = statToChange / 10 - 1;
@@ -152,7 +278,7 @@ public class PlayerStats {
         }
     }
 
-    
+    //update stats display
     public void updatestat() {
         blockErr.setText(String.valueOf(stats[0][0]));
         blockAss.setText(String.valueOf(stats[0][1]));
@@ -168,33 +294,16 @@ public class PlayerStats {
         passErr.setText(String.valueOf(stats[5][0]));
         passOnTar.setText(String.valueOf(stats[5][1]));
         passOffTar.setText(String.valueOf(stats[5][2]));
-
-
-
-
-
     }
+
+
+    //switch back to game scene
     @FXML
     public void back () throws IOException{
-        FXMLLoader loader =  new FXMLLoader(getClass().getResource("/com/app/mainMenu.fxml"));
-        MainMenu controller = new MainMenu(stage);
+        FXMLLoader loader =  new FXMLLoader(getClass().getResource("/com/app/game.fxml"));
+        Game controller = new Game(stage, players);
         loader.setController(controller);
         Scene scene = new Scene(loader.load());
-        stage.setScene(scene);
-        stage.show();
+        switchScene(scene);
     }
-
-
-
-
-    @FXML
-    public void goBack() throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/app/mainMenu.fxml"));
-        MainMenu controller = new MainMenu(stage);
-        loader.setController(controller);
-        Scene scene = new Scene(loader.load());
-        stage.setScene(scene);
-        stage.show();
-    }
-
 }

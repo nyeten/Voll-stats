@@ -1,0 +1,8 @@
+module com.app {
+    requires javafx.controls;
+    requires javafx.fxml;
+    requires gson; // allow Gson
+
+    opens com.app to javafx.fxml, com.google.gson; // open package to both
+    exports com.app;
+}

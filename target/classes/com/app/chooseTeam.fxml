@@ -1,0 +1,73 @@
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.layout.HBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            prefWidth="640" prefHeight="480"
+            style="-fx-background-color: #121212;"> <!-- Unified dark background -->
+
+    <!-- 🔺 Top Bar -->
+    <top>
+        <BorderPane style="-fx-background-color: #d94a38; -fx-padding: 12;">
+            
+            <!-- 🔹 Exit Button -->
+            <left>
+                <Button text="Exit"
+                        onAction="#exit"
+                        style="-fx-font-size: 14px;
+                               -fx-padding: 6 14;
+                               -fx-background-color: #1e1e1e;
+                               -fx-text-fill: white;
+                               -fx-border-color: white;
+                               -fx-border-radius: 6;
+                               -fx-background-radius: 6;
+                               -fx-cursor: hand;"/>
+            </left>
+
+            <!-- 🔹 Center Title -->
+            <center>
+                <Text fx:id="selectedTeamText"
+                      text="Choose Your Team"
+                      style="-fx-font-size: 28px;
+                             -fx-font-weight: bold;
+                             -fx-fill: #ffffff;"/>
+            </center>
+
+            <!-- 🔹 Confirm Button -->
+            <right>
+                <Button fx:id="confirm"
+                        text="Confirm"
+                        onAction="#confirmTeam"
+                        style="-fx-font-size: 14px;
+                               -fx-padding: 6 14;
+                               -fx-background-color: #1e1e1e;
+                               -fx-text-fill: white;
+                               -fx-border-color: white;
+                               -fx-border-radius: 6;
+                               -fx-background-radius: 6;
+                               -fx-cursor: hand;"/>
+            </right>
+        </BorderPane>
+    </top>
+
+    <!-- ⚫ Scrollable Team List -->
+    <center>
+        <ScrollPane fx:id="scrollPane"
+                    fitToWidth="true"
+                    style="-fx-background: #121212;
+                           -fx-background-color: #121212;
+                           -fx-border-color: transparent;">
+            <VBox fx:id="buttonContainer"
+                  spacing="10"
+                  alignment="CENTER"
+                  style="-fx-padding: 20;
+                         -fx-background-color: #121212;">
+            </VBox>
+        </ScrollPane>
+    </center>
+
+</BorderPane>
